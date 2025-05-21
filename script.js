@@ -14,7 +14,6 @@ function updateCountdown(elementId, targetDate, eventName) {
     const now = new Date();
     let distance = targetDate.getTime() - now.getTime();
 
-    // Show wish message if today is the event
     if (
       now.getDate() === targetDate.getDate() &&
       now.getMonth() === targetDate.getMonth()
@@ -22,7 +21,6 @@ function updateCountdown(elementId, targetDate, eventName) {
       showWish(eventName);
     }
 
-    // If event passed, update to next year
     if (distance <= 0) {
       targetDate.setFullYear(targetDate.getFullYear() + 1);
       distance = targetDate.getTime() - now.getTime();
@@ -45,25 +43,23 @@ function showWish(type) {
   let msg = "";
   switch (type) {
     case "anniversary":
-      msg = "Happy Anniversary!";
+      msg = "Happy Anniversary, Anand & Nisha! May your bond grow stronger every year!";
       break;
     case "husband":
-      msg = "Happy Birthday, Husband!";
+      msg = "Wishing a fantastic birthday to Anand! Stay blessed and awesome!";
       break;
     case "wife":
-      msg = "Happy Birthday, Wife!";
+      msg = "Happy Birthday, Nisha! Wishing you joy, love, and endless happiness!";
       break;
   }
   wishBox.textContent = msg;
   wishBox.classList.remove("hidden");
 }
 
-// Dates
 const anniversary = getNextDate(2, 8);
 const husband = getNextDate(3, 17);
 const wife = getNextDate(5, 17);
 
-// Start countdowns
 updateCountdown("anniversary-timer", anniversary, "anniversary");
 updateCountdown("husband-timer", husband, "husband");
 updateCountdown("wife-timer", wife, "wife");
