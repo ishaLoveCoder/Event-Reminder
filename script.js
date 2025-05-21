@@ -9,14 +9,23 @@ function getNextDate(month, day) {
   return new Date(year, month - 1, day, 0, 0, 0);
 }
 
-function updateCountdown(elementId, targetDate) {
+function updateCountdown(elementId, targetDate, eventName) {
   function update() {
-    const now = new Date().getTime();
-    const distance = targetDate.getTime() - now;
+    const now = new Date();
+    let distance = targetDate.getTime() - now.getTime();
 
+    // Show wish message if today is the event
+    if (
+      now.getDate() === targetDate.getDate() &&
+      now.getMonth() === targetDate.getMonth()
+    ) {
+      showWish(eventName);
+    }
+
+    // If event passed, update to next year
     if (distance <= 0) {
-      // Automatically move to next year
       targetDate.setFullYear(targetDate.getFullYear() + 1);
+      distance = targetDate.getTime() - now.getTime();
     }
 
     const d = Math.floor(distance / (1000 * 60 * 60 * 24));
@@ -31,12 +40,30 @@ function updateCountdown(elementId, targetDate) {
   setInterval(update, 1000);
 }
 
-// Event Dates
+function showWish(type) {
+  const wishBox = document.getElementById("wish-message");
+  let msg = "";
+  switch (type) {
+    case "anniversary":
+      msg = "Happy Anniversary!";
+      break;
+    case "husband":
+      msg = "Happy Birthday, Husband!";
+      break;
+    case "wife":
+      msg = "Happy Birthday, Wife!";
+      break;
+  }
+  wishBox.textContent = msg;
+  wishBox.classList.remove("hidden");
+}
+
+// Dates
 const anniversary = getNextDate(2, 8);
-const husbandBirthday = getNextDate(3, 17);
-const wifeBirthday = getNextDate(5, 17);
+const husband = getNextDate(3, 17);
+const wife = getNextDate(5, 17);
 
 // Start countdowns
-updateCountdown("anniversary-timer", anniversary);
-updateCountdown("husband-timer", husbandBirthday);
-updateCountdown("wife-timer", wifeBirthday);
+updateCountdown("anniversary-timer", anniversary, "anniversary");
+updateCountdown("husband-timer", husband, "husband");
+updateCountdown("wife-timer", wife, "wife");
